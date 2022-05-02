@@ -1,0 +1,22 @@
+- name: Checking config
+  hosts: all
+  collections:
+    - juniper.device
+  connection: network_cli
+  gather_facts: no
+  tasks:
+    - name: Pushing config ... please wait
+      juniper_junos_config:
+       check: true
+       commit: false
+       diff: true
+       src: "{{ inventory_hostname }}.conf"
+       load: "override"
+       format: "text"
+      register: response
+
+    - name: Display diff
+      debug:
+        var: response
+
+
